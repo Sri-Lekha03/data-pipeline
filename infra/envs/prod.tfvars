@@ -1,0 +1,6 @@
+environment        = "prod"
+aws_region         = "us-east-1"
+source_bucket_name = "data-pipeline-source-prod"
+dest_bucket_name   = "data-pipeline-dest-prod"
+function_name      = "data-pipeline-prod"
+alert_email        = "your@email.com"

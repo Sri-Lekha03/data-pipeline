@@ -1,0 +1,6 @@
+environment        = "dev"
+aws_region         = "us-east-1"
+source_bucket_name = "data-pipeline-source-dev"
+dest_bucket_name   = "data-pipeline-dest-dev"
+function_name      = "data-pipeline-dev"
+alert_email        = "your@email.com"

@@ -1,0 +1,23 @@
+[project]
+name = "data-pipeline"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "boto3>=1.42.88",
+    "pandas>=3.0.2",
+    "pyarrow>=23.0.1",
+    "pydantic>=2.12.5",
+    "typer>=0.24.1",
+]
+
+[dependency-groups]
+dev = [
+    "boto3-stubs>=1.42.88",
+    "moto>=5.1.22",
+    "mypy>=1.20.0",
+    "pytest>=9.0.3",
+    "pytest-cov>=7.1.0",
+    "ruff>=0.15.10",
+]

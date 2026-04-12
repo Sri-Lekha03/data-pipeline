@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install uv
+        run: pip install uv
+
+      - name: Install dependencies
+        run: uv sync --all-extras
+
+      - name: Lint with ruff
+        run: uv run ruff check .
+
+      - name: Type check with mypy
+        run: uv run mypy pipeline --ignore-missing-imports
+
+      - name: Run tests
+        run: uv run pytest -q --cov=pipeline --cov-report=term-missing
+
+      - name: Build Lambda zip
+        run: |
+          mkdir -p build
+          uv export --no-dev --format requirements-txt > build/requirements.txt
+          pip install -r build/requirements.txt -t build/package/
+          cp -r pipeline build/package/
+          cd build/package && zip -r ../../lambda.zip .

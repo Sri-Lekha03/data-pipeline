@@ -7,7 +7,7 @@ resource "aws_cloudwatch_log_group" "pipeline" {
   }
 }
 
-resource "aws_cloudwatch_metric_filter" "errors" {
+resource "aws_cloudwatch_log_metric_filter" "errors" {
   name           = "${var.function_name}-errors"
   pattern        = "ERROR"
   log_group_name = aws_cloudwatch_log_group.pipeline.name

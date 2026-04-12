@@ -70,7 +70,8 @@ resource "aws_lambda_function" "pipeline" {
   role          = aws_iam_role.lambda.arn
   runtime       = "python3.12"
   handler       = "pipeline.handler.lambda_handler"
-  filename      = "${path.module}/../../lambda.zip"
+  s3_bucket     = var.source_bucket_name
+  s3_key        = "lambda/lambda.zip"
   timeout       = 300
   memory_size   = 512
 

@@ -9,7 +9,7 @@ terraform {
   }
 
   backend "s3" {
-    bucket         = "tfstate-data-pipeline"
+    bucket         = "tfstate-data-pipeline-329599634313"
     key            = "pipeline/terraform.tfstate"
     region         = "us-east-1"
     dynamodb_table = "tfstate-lock"

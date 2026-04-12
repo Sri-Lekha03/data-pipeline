@@ -1,0 +1,4 @@
+{"event_id": "550e8400-e29b-41d4-a716-446655440000", "event_type": "click", "user_id": "user_001", "timestamp": "2026-04-11T10:00:00", "metadata": {"source": "web", "geo": {"city": "New York", "country": "US"}}, "value": 9.99}
+{"event_id": "550e8400-e29b-41d4-a716-446655440001", "event_type": "purchase", "user_id": "user_002", "timestamp": "2026-04-11T11:00:00", "metadata": {"source": "mobile"}, "value": 49.99}
+{"event_id": "550e8400-e29b-41d4-a716-446655440002", "event_type": "view", "user_id": "user_003", "timestamp": "2026-04-11T12:00:00", "metadata": {"source": "web"}, "value": null}
+{"bad_field": "this_is_invalid", "will_go_to": "dead_letter"}

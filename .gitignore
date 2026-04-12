@@ -1,10 +1,7 @@
-# Python-generated files
-__pycache__/
-*.py[oc]
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.backup
+.terraform.lock.hcl
+lambda.zip
 build/
-dist/
-wheels/
-*.egg-info
-
-# Virtual environments
-.venv

@@ -52,9 +52,20 @@ jobs:
         working-directory: infra
         run: terraform plan -var-file=envs/dev.tfvars
 
-      - name: Terraform Apply (on merge to main)
+      - name: Terraform Apply S3 first
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         working-directory: infra
         run: |
           terraform workspace select prod || terraform workspace new prod
-          terraform apply -auto-approve -var-file=envs/prod.tfvars
+          terraform apply -auto-approve -var-file=envs/prod.tfvars -target=module.s3
+
+      - name: Upload Lambda zip to S3
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: |
+          SOURCE_BUCKET=$(terraform -chdir=infra output -raw source_bucket_name)
+          aws s3 cp lambda.zip s3://$SOURCE_BUCKET/lambda/lambda.zip
+
+      - name: Terraform Apply remaining
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        working-directory: infra
+        run: terraform apply -auto-approve -var-file=envs/prod.tfvars

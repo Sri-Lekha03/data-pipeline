@@ -22,4 +22,5 @@
 - Add Glue Data Catalog table for Athena queries
 - Add OpenTelemetry tracing for end-to-end observability
 - Add pre-commit hooks for local linting before push
-- Add Terraform plan output as PR comment via GitHub Actions
+- Add Terraform plan output as PR comment via GitHub Actions 
+- **force_destroy on S3** - Added to allow terraform destroy to work cleanly in demo/CI environments. In production this would be removed to prevent accidental data loss. 

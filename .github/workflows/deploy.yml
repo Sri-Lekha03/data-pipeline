@@ -55,4 +55,6 @@ jobs:
       - name: Terraform Apply (on merge to main)
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         working-directory: infra
-        run: terraform apply -auto-approve -var-file=envs/prod.tfvars
+        run: |
+          terraform workspace select prod || terraform workspace new prod
+          terraform apply -auto-approve -var-file=envs/prod.tfvars

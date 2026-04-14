@@ -58,23 +58,11 @@ def test_pipeline_processes_valid_records(aws_setup):
     events = [make_raw_event() for _ in range(3)]
     upload_events(s3, events)
 
-    with mock_aws():
-        s3 = boto3.client("s3", region_name="us-east-1")
-        s3.create_bucket(Bucket=SOURCE_BUCKET)
-        s3.create_bucket(Bucket=DEST_BUCKET)
-
-        body = "\n".join(json.dumps(e) for e in events)
-        s3.put_object(
-            Bucket=SOURCE_BUCKET,
-            Key="raw/2026/04/11/events.json",
-            Body=body,
-        )
-
-        result = run_pipeline(
-            source_bucket=SOURCE_BUCKET,
-            dest_bucket=DEST_BUCKET,
-            prefix="raw/2026/04/11/",
-        )
+    result = run_pipeline(
+        source_bucket=SOURCE_BUCKET,
+        dest_bucket=DEST_BUCKET,
+        prefix="raw/2026/04/11/",
+    )
 
     assert result["records_processed"] == 3
     assert result["records_failed"] == 0

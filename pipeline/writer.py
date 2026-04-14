@@ -9,14 +9,26 @@ import boto3
 import pyarrow as pa
 import pyarrow.parquet as pq
 
+# Module-level client — reused across calls (Lambda execution context reuse)
+_s3_client = None
+
+
+def get_s3_client() -> Any:
+    global _s3_client
+    if _s3_client is None:
+        _s3_client = boto3.client("s3")
+    return _s3_client
+
 
 def write_parquet_to_s3(
     records: list[dict[str, Any]],
     bucket: str,
     partition_path: str,
     filename: str = "data.parquet",
+    s3_client: Any = None,
 ) -> str:
     """Write records as Snappy-compressed Parquet to S3."""
+    client = s3_client or get_s3_client()
     table = pa.Table.from_pylist(records)
 
     buffer = io.BytesIO()
@@ -25,8 +37,7 @@ def write_parquet_to_s3(
 
     key = f"processed/{partition_path}{filename}"
 
-    s3 = boto3.client("s3")
-    s3.put_object(
+    client.put_object(
         Bucket=bucket,
         Key=key,
         Body=buffer.getvalue(),
@@ -40,8 +51,11 @@ def write_dead_letter_to_s3(
     error: str,
     bucket: str,
     source_key: str,
+    s3_client: Any = None,
 ) -> str:
     """Write an invalid record to the dead-letter prefix in S3."""
+    client = s3_client or get_s3_client()
+
     payload = {
         "raw": raw,
         "error": error,
@@ -51,8 +65,7 @@ def write_dead_letter_to_s3(
 
     key = f"dead-letter/{source_key}"
 
-    s3 = boto3.client("s3")
-    s3.put_object(
+    client.put_object(
         Bucket=bucket,
         Key=key,
         Body=json.dumps(payload),

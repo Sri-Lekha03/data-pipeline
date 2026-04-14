@@ -4,4 +4,4 @@
 *.tfstate.backup
 .terraform.lock.hcl
 lambda.zip
-build/
+build/lambda.zip 

@@ -24,3 +24,8 @@ dev = [
 
 [tool.ruff]
 exclude = ["build/", "infra/"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+ignore_missing_imports = true

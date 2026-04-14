@@ -29,7 +29,7 @@ jobs:
         run: uv run ruff check .
 
       - name: Type check with mypy
-        run: uv run mypy pipeline --ignore-missing-imports
+        run: uv run mypy pipeline --strict
 
       - name: Run tests
         run: uv run pytest -q --cov=pipeline --cov-report=term-missing

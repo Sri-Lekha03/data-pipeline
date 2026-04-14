@@ -1,0 +1,16 @@
+{
+    "Objects": [
+        {
+            "Key": "lambda/lambda.zip",
+            "VersionId": "null"
+        },
+        {
+            "Key": "lambda/layer.zip",
+            "VersionId": "null"
+        },
+        {
+            "Key": "raw/2026/04/11/test_events.json",
+            "VersionId": "null"
+        }
+    ]
+}

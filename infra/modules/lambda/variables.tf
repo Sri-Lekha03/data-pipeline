@@ -32,3 +32,8 @@ variable "log_group_arn" {
   description = "ARN of the CloudWatch log group"
   type        = string
 }
+
+variable "image_uri" {
+  description = "ECR image URI for the Lambda function"
+  type        = string
+}

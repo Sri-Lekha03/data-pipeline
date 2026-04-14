@@ -17,3 +17,7 @@ output "lambda_function_arn" {
 output "sns_topic_arn" {
   value = module.monitoring.sns_topic_arn
 }
+
+output "ecr_repository_url" {
+  value = module.ecr.repository_url
+}

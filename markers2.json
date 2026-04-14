@@ -1,0 +1,20 @@
+{
+    "Objects": [
+        {
+            "Key": "dead-letter/raw/2026/04/11/test_events.json/f6fd191a-1fd2-49f5-8d8a-cee7086e6f2e.json",
+            "VersionId": "null"
+        },
+        {
+            "Key": "processed/event_type=click/year=2026/month=04/day=11/data.parquet",
+            "VersionId": "null"
+        },
+        {
+            "Key": "processed/event_type=purchase/year=2026/month=04/day=11/data.parquet",
+            "VersionId": "null"
+        },
+        {
+            "Key": "processed/event_type=view/year=2026/month=04/day=11/data.parquet",
+            "VersionId": "null"
+        }
+    ]
+}

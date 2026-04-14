@@ -28,10 +28,7 @@ resource "aws_iam_role_policy" "lambda" {
       {
         Sid    = "ReadSourceBucket"
         Effect = "Allow"
-        Action = [
-          "s3:GetObject",
-          "s3:ListBucket"
-        ]
+        Action = ["s3:GetObject", "s3:ListBucket"]
         Resource = [
           var.source_bucket_arn,
           "${var.source_bucket_arn}/*"
@@ -40,25 +37,29 @@ resource "aws_iam_role_policy" "lambda" {
       {
         Sid    = "WriteDestBucket"
         Effect = "Allow"
-        Action = [
-          "s3:PutObject",
-          "s3:GetObject"
-        ]
+        Action = ["s3:PutObject", "s3:GetObject"]
         Resource = "${var.dest_bucket_arn}/*"
       },
       {
         Sid    = "WriteLogs"
         Effect = "Allow"
-        Action = [
-          "logs:CreateLogStream",
-          "logs:PutLogEvents"
-        ]
+        Action = ["logs:CreateLogStream", "logs:PutLogEvents"]
         Resource = "${var.log_group_arn}:*"
       },
       {
-        Sid    = "PutMetrics"
+        Sid      = "PutMetrics"
+        Effect   = "Allow"
+        Action   = "cloudwatch:PutMetricData"
+        Resource = "*"
+      },
+      {
+        Sid    = "ECRAuth"
         Effect = "Allow"
-        Action = "cloudwatch:PutMetricData"
+        Action = [
+          "ecr:GetDownloadUrlForLayer",
+          "ecr:BatchGetImage",
+          "ecr:GetAuthorizationToken"
+        ]
         Resource = "*"
       }
     ]
@@ -68,10 +69,8 @@ resource "aws_iam_role_policy" "lambda" {
 resource "aws_lambda_function" "pipeline" {
   function_name = var.function_name
   role          = aws_iam_role.lambda.arn
-  runtime       = "python3.12"
-  handler       = "pipeline.handler.lambda_handler"
-  s3_bucket     = var.source_bucket_name
-  s3_key        = "lambda/lambda.zip"
+  package_type  = "Image"
+  image_uri     = var.image_uri
   timeout       = 300
   memory_size   = 512
 

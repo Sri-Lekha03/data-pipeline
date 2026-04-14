@@ -30,18 +30,11 @@ jobs:
       - name: Install dependencies
         run: uv sync --all-extras
 
-      - name: Build Lambda zip
-        run: |
-          mkdir -p build
-          uv export --no-dev --format requirements-txt > build/requirements.txt
-          pip install -r build/requirements.txt -t build/package/
-          cp -r pipeline build/package/
-          cd build/package && zip -r ../../lambda.zip .
-
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: 1.6.0
+          terraform_wrapper: false
 
       - name: Terraform Init
         working-directory: infra
@@ -52,18 +45,22 @@ jobs:
         working-directory: infra
         run: terraform plan -var-file=envs/dev.tfvars
 
-      - name: Terraform Apply S3 first
+      - name: Terraform Apply ECR first
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         working-directory: infra
         run: |
           terraform workspace select prod || terraform workspace new prod
-          terraform apply -auto-approve -var-file=envs/prod.tfvars -target=module.s3
+          terraform apply -auto-approve -var-file=envs/prod.tfvars -target=module.ecr
 
-      - name: Upload Lambda zip to S3
+      - name: Build and push Docker image
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
-          SOURCE_BUCKET=$(terraform -chdir=infra output -raw source_bucket_name)
-          aws s3 cp lambda.zip s3://$SOURCE_BUCKET/lambda/lambda.zip
+          mkdir -p build
+          uv export --no-dev --format requirements-txt > build/requirements.txt
+          ECR_URL=$(terraform -chdir=infra output -raw ecr_repository_url)
+          aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin $ECR_URL
+          docker build -t $ECR_URL:latest .
+          docker push $ECR_URL:latest
 
       - name: Terraform Apply remaining
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'

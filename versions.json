@@ -1,0 +1,40 @@
+{
+    "Objects": [
+        {
+            "Key": "lambda/lambda.zip",
+            "VersionId": "oxQ8LMTotorfuHc0NqBraUsuoX6G85Uk"
+        },
+        {
+            "Key": "lambda/lambda.zip",
+            "VersionId": "b0Z8J7caNnrBksa_LOiMxxvU.g9ygpq_"
+        },
+        {
+            "Key": "lambda/lambda.zip",
+            "VersionId": "HbeON_id8hYf450K4q8d8nhS8_LgaHOY"
+        },
+        {
+            "Key": "lambda/lambda.zip",
+            "VersionId": "WcRB190Sph0T5rLP624YveHxPSN5f3bY"
+        },
+        {
+            "Key": "lambda/lambda.zip",
+            "VersionId": "nd6AyJVV7oqKK8priVffdEPoCYPKxNfX"
+        },
+        {
+            "Key": "lambda/layer.zip",
+            "VersionId": "6C_1NpqknKLK.CLL3Vc9aPTR4akHlJw6"
+        },
+        {
+            "Key": "lambda/layer.zip",
+            "VersionId": "CmUqRncuKz2J11WwDuoS8ch4MqSZ_XmD"
+        },
+        {
+            "Key": "raw/2026/04/11/test_events.json",
+            "VersionId": "jVqEuhYgdgHe6zw62yjrOkv0yzHXE1FX"
+        },
+        {
+            "Key": "raw/2026/04/11/test_events.json",
+            "VersionId": "zzlKpxKsSKIWExVIyrXLQMqJI3qJdrd9"
+        }
+    ]
+}
